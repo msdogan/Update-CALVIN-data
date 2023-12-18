@@ -23,27 +23,33 @@ def loc_finder(loc, directory):
                 filepath = subdirs + os.sep + director
                 break
     return filepath
-    
+
+def save_ts_data(df,path_ending):
+    save_data = pd.DataFrame()
+    save_data.index = df.index
+    save_data.index.names = ['date']
+    for c in df.columns:
+        print('Updating reservoir evap: '+c)
+        file_loc = loc_finder(c,directory) + path_ending
+        # save matched time-series data
+        save_data['kaf'] = df[c].values
+        save_data.to_csv(file_loc, index=True)
+    return
+
+
 
 """
 RIM INFLOWS
 """
-# print('Updating Reservoir Inflow')
-# # read rim inflow locations (nodes) and time-series data
-# rim_inflows = pd.read_csv('data/rim_inflow_taf_data.csv', header=0, index_col = 0)
-# # convert index to date time index
-# rim_inflows.index = pd.to_datetime(rim_inflows.index)
+print('Updating Reservoir Inflow')
+# read rim inflow locations (nodes) and time-series data
+rim_inflows = pd.read_csv('data/rim_inflow_taf_data.csv', header=0, index_col = 0)
+# convert index to date time index
+rim_inflows.index = pd.to_datetime(rim_inflows.index)
 
-# # this will match and update calvin-network-data rim inflows
-# save_data = pd.DataFrame()
-# save_data.index = rim_inflows.index
-# save_data.index.names = ['date']
-# for rim_inflow in rim_inflows.columns:
-#     print('Updating reservoir inflow: '+rim_inflow)
-#     rim_file_loc = loc_finder(rim_inflow,directory) + os.sep + 'inflows' + os.sep + 'default.csv'
-#     # save matched time-series data
-#     save_data['kaf'] = rim_inflows[rim_inflow].values
-#     save_data.to_csv(rim_file_loc, index=True)
+# this will match and update calvin-network-data rim inflows
+save_ts_data(rim_inflows,os.sep + 'inflows' + os.sep + 'default.csv')
+print('*********************   *********************')
 
 
 """
@@ -56,21 +62,6 @@ res_evaps = pd.read_csv('data/reservoir_evaporation_data.csv', header=0, index_c
 res_evaps.index = pd.to_datetime(res_evaps.index)
 
 # this will match and update calvin-network-data reservoir evaporation
-save_data = pd.DataFrame()
-save_data.index = res_evaps.index
-save_data.index.names = ['date']
-for res_evap in res_evaps.columns:
-    print('Updating reservoir evap: '+res_evap)
-    res_evap_file_loc = loc_finder(res_evap,directory) + os.sep + 'evaporation.csv'
-    # save matched time-series data
-    save_data['kaf'] = res_evaps[res_evap].values
-    save_data.to_csv(res_evap_file_loc, index=True)
+save_ts_data(res_evaps,os.sep + 'evaporation.csv')
+print('*********************   *********************')
 
-
-
-# for subdirs, dirs, files in os.walk(directory):
-#     for file in files:
-#         # print(os.path.join(subdirs, file))
-#         filepath = subdirs + os.sep + file
-#         if filepath.endswith("LBT.csv"):
-#             print(filepath)
