@@ -1,0 +1,48 @@
+Region,Description,Node
+1,Cottonwood Creek,c2
+1,Antelope Mill and Deer Creeks,d75
+1,Big Chico Creek,d76b
+1,Trinity River,sr_cle
+1,Clear Creek,sr_whi
+1,Sacramento River,sr_sha
+1,Stony Creek,sr_blb
+1,Paynes and Seven Miles Creeks,c87
+1,Thomas and Elder Creeks,c86
+1,Red Bank Creek,d77
+1,Lewiston Lake Inflow,d94
+1,Cow Bear and Battle Creeks,d74
+2,Dry Creek,c38
+2,Feather River,c77
+2,Calaveras River,sr_nhg
+2,Cosumnes River,c37
+2,Kelly Ridge,c23
+2,Bear River,sr_rll_cmb
+2,Butte and Little Dry Creeks,d43a
+3,Stanislaus River,sr_nml
+3,San Joaquin River,sr_mil
+3,Merced River,sr_mcr
+3,Fresno River,sr_hid
+3,Chowchilla River,sr_buc
+2,North Fork Yuba River,sr_bul
+2,Cache Creek,sr_clk_inv
+2,Putah Creek,sr_ber
+2,Middle & South Forks Yuba River,c27
+2,North and Middle Forks American River,d17
+2,South Fork American River,sr_fol
+2,Deer Creek,c28
+2,Mokelumne River,sr_par
+2,French Dry Creek,c29
+3,Local Inflow to New Don Pedro Reservoir,sr_dnp
+3,Tuolumne River,sr_hth
+3,Cherry and Eleanor Creeks,sr_ll_enr
+3,Santa Clara Valley Inflow,sr_scagg
+4,Kaweah River,sr_trm
+4,Kings River,sr_pnf
+4,Tule River,sr_scc
+4,Kern River,sr_isb
+5,Owens River,sr_crw
+5,Colorado River Aqueduct,sr_cr3
+5,White River,c146
+5,New and Alamo River,c148
+5,Mono Basin,sr_gnt
+5,Long Valley to Haiwee,c116
