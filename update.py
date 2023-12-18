@@ -27,10 +27,20 @@ def loc_finder(loc, directory):
 
 
 # rim inflow locations (nodes)
-rim_inflows = pd.read_csv('rim_inflow_loc.csv', header=0)
+rim_inflows = pd.read_csv('data/rim_inflow_taf_data.csv', header=0, index_col = 0)
+# convert index to date time index
+rim_inflows.index = pd.to_datetime(rim_inflows.index)
 
-for rim_inflow in rim_inflows['Node']:
-    rim_file = loc_finder(rim_inflow,directory) + os.sep + 'inflows' + os.sep + 'default.csv'
+# this will update calvin-network-data rim inflows
+save_data = pd.DataFrame()
+save_data.index = rim_inflows.index
+save_data.index.names = ['date']
+for rim_inflow in rim_inflows.columns:
+    print('Updating: '+rim_inflow)
+    rim_file_loc = loc_finder(rim_inflow,directory) + os.sep + 'inflows' + os.sep + 'default.csv'
+    save_data['kaf'] = rim_inflows[rim_inflow].values
+    save_data.to_csv(rim_file_loc, index=True)
+
 
 
 
