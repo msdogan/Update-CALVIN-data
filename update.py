@@ -108,15 +108,30 @@ MINIMUM INSTREAM FLOW REQUIREMENTS
 CONSTRAINED FLOW TIME-SERIES
 
 """
-print('Updating Constrained Flows')
-# read groundwater inflow locations (nodes) and time-series data
-# (mostly refuge deliveries and fixed urban demands)
-constrained_flow = pd.read_csv('data/constrained_eqt_data.csv', header=0, index_col = 0)
+# print('Updating Constrained Flows')
+# # read constrained flow locations (nodes) and time-series data
+# # (mostly refuge deliveries and fixed urban demands)
+# constrained_flow = pd.read_csv('data/constrained_eqt_data.csv', header=0, index_col = 0)
+# # convert index to date time index
+# constrained_flow.index = pd.to_datetime(constrained_flow.index)
+
+# # this will match and update calvin-network-data
+# save_ts_data(constrained_flow,os.sep+'EQT.csv')
+# print('*********************   *********************')
+
+
+"""
+TARGET AND CAPACITY TIME-SERIES
+
+"""
+print('Updating Target Capacities')
+# read target capacity locations (nodes) and time-series data
+target_cap = pd.read_csv('data/target_ubt_data.csv', header=0, index_col = 0)
 # convert index to date time index
-constrained_flow.index = pd.to_datetime(constrained_flow.index)
+target_cap.index = pd.to_datetime(target_cap.index)
 
 # this will match and update calvin-network-data
-save_ts_data(constrained_flow,os.sep+'EQT.csv')
+save_ts_data(target_cap,os.sep+'UBT.csv')
 print('*********************   *********************')
 
 
