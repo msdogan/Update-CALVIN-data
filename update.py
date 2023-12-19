@@ -31,14 +31,13 @@ def save_ts_data(df,path_ending,start_date='1921-09-30',end_date='2003-10-31'):
     for c in df.columns:
         col = c.lower()
         print('Updating: '+col)
-        # sinks does not follow general rule and they have a specific representation
+        # sinks and inflows do not follow general rule and they have a specific representation
         if '-sink' in col:
             col = col.replace("-sink", "")
             file_loc = loc_finder(col,directory)+os.sep+'sinks'+os.sep+'default'+path_ending
-        elif 'inflow' in col:
-            continue # this is inflow, so input to the model. You can continue and do nothing or decomment code below and make changes
-            # col = col.replace("inflow-", "")
-            # file_loc = loc_finder(col,directory)+os.sep+'inflows'+os.sep+'default.csv'
+        elif 'inflow-' in col:
+            col = col.replace("inflow-", "")
+            file_loc = loc_finder(col,directory)+os.sep+'inflows'+os.sep+'default.csv'
         else:
             file_loc = loc_finder(col,directory) + path_ending
         # save matched time-series data
@@ -124,14 +123,29 @@ CONSTRAINED FLOW TIME-SERIES
 TARGET AND CAPACITY TIME-SERIES
 
 """
-print('Updating Target Capacities')
-# read target capacity locations (nodes) and time-series data
-target_cap = pd.read_csv('data/target_ubt_data.csv', header=0, index_col = 0)
+# print('Updating Target Capacities')
+# # read target capacity locations (nodes) and time-series data
+# target_cap = pd.read_csv('data/target_ubt_data.csv', header=0, index_col = 0)
+# # convert index to date time index
+# target_cap.index = pd.to_datetime(target_cap.index)
+
+# # this will match and update calvin-network-data
+# save_ts_data(target_cap,os.sep+'UBT.csv')
+# print('*********************   *********************')
+
+
+"""
+LOCAL INFLOWS AND LOSSES
+
+"""
+print('Updating Local Inflows')
+# read local inflow and loss locations (nodes) and time-series data
+local_flow = pd.read_csv('data/local_inflow_and_loss_data.csv', header=0, index_col = 0)
 # convert index to date time index
-target_cap.index = pd.to_datetime(target_cap.index)
+local_flow.index = pd.to_datetime(local_flow.index)
 
 # this will match and update calvin-network-data
-save_ts_data(target_cap,os.sep+'UBT.csv')
+save_ts_data(local_flow,os.sep+'EQT.csv')
 print('*********************   *********************')
 
 
