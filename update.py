@@ -34,11 +34,11 @@ def save_ts_data(df,path_ending,start_date='1921-09-30',end_date='2003-10-31'):
         # sinks does not follow general rule and they have a specific representation
         if '-sink' in col:
             col = col.replace("-sink", "")
-            file_loc = loc_finder(col,directory) + os.sep + 'sinks' + os.sep + 'default' + path_ending
+            file_loc = loc_finder(col,directory)+os.sep+'sinks'+os.sep+'default'+path_ending
         elif 'inflow' in col:
             continue # this is inflow, so input to the model. You can continue and do nothing or decomment code below and make changes
             # col = col.replace("inflow-", "")
-            # file_loc = loc_finder(col,directory) + os.sep + 'inflows' + os.sep + 'default.csv'
+            # file_loc = loc_finder(col,directory)+os.sep+'inflows'+os.sep+'default.csv'
         else:
             file_loc = loc_finder(col,directory) + path_ending
         # save matched time-series data
@@ -49,23 +49,23 @@ def save_ts_data(df,path_ending,start_date='1921-09-30',end_date='2003-10-31'):
 
 
 
-# """
-# RIM INFLOWS
-# """
+"""
+RIM INFLOWS
+"""
 # print('Updating Reservoir Inflow')
 # # read rim inflow locations (nodes) and time-series data
-# rim_inflows = pd.read_csv('data/rim_inflow_taf_data.csv', header=0, index_col = 0)
+# rim_inflows = pd.read_csv('data/rim_inflow_data.csv', header=0, index_col = 0)
 # # convert index to date time index
 # rim_inflows.index = pd.to_datetime(rim_inflows.index)
 
 # # this will match and update calvin-network-data rim inflows
-# save_ts_data(rim_inflows,os.sep + 'inflows' + os.sep + 'default.csv')
+# save_ts_data(rim_inflows,os.sep+'inflows'+os.sep+'default.csv')
 # print('*********************   *********************')
 
 
-# """
-# RESERVOIR EVAPORATION
-# """
+"""
+RESERVOIR EVAPORATION
+"""
 # print('Updating Reservoir Evaporation')
 # # read reservoir evaporation locations (nodes) and time-series data
 # res_evaps = pd.read_csv('data/reservoir_evaporation_data.csv', header=0, index_col = 0)
@@ -73,8 +73,23 @@ def save_ts_data(df,path_ending,start_date='1921-09-30',end_date='2003-10-31'):
 # res_evaps.index = pd.to_datetime(res_evaps.index)
 
 # # this will match and update calvin-network-data reservoir evaporation
-# save_ts_data(res_evaps,os.sep + 'evaporation.csv')
+# save_ts_data(res_evaps,os.sep+'evaporation.csv')
 # print('*********************   *********************')
+
+
+"""
+GROUNDWATER INFLOWS
+"""
+print('Updating Groundwater Inflow')
+# read groundwater inflow locations (nodes) and time-series data
+gw_inflows = pd.read_csv('data/gw_inflow_data.csv', header=0, index_col = 0)
+# convert index to date time index
+gw_inflows.index = pd.to_datetime(gw_inflows.index)
+
+# this will match and update calvin-network-data rim inflows
+save_ts_data(gw_inflows,os.sep+'inflows'+os.sep+'default.csv')
+print('*********************   *********************')
+
 
 """
 *********************   *********************
