@@ -58,7 +58,7 @@ RIM INFLOWS
 # # convert index to date time index
 # rim_inflows.index = pd.to_datetime(rim_inflows.index)
 
-# # this will match and update calvin-network-data rim inflows
+# # this will match and update calvin-network-data
 # save_ts_data(rim_inflows,os.sep+'inflows'+os.sep+'default.csv')
 # print('*********************   *********************')
 
@@ -72,7 +72,7 @@ RESERVOIR EVAPORATION
 # # convert index to date time index
 # res_evaps.index = pd.to_datetime(res_evaps.index)
 
-# # this will match and update calvin-network-data reservoir evaporation
+# # this will match and update calvin-network-data
 # save_ts_data(res_evaps,os.sep+'evaporation.csv')
 # print('*********************   *********************')
 
@@ -86,7 +86,7 @@ GROUNDWATER INFLOWS
 # # convert index to date time index
 # gw_inflows.index = pd.to_datetime(gw_inflows.index)
 
-# # this will match and update calvin-network-data rim inflows
+# # this will match and update calvin-network-data
 # save_ts_data(gw_inflows,os.sep+'inflows'+os.sep+'default.csv')
 # print('*********************   *********************')
 
@@ -94,14 +94,29 @@ GROUNDWATER INFLOWS
 """
 MINIMUM INSTREAM FLOW REQUIREMENTS
 """
-print('Updating MIF Requirements')
-# read groundwater inflow locations (nodes) and time-series data
-mif_reqs = pd.read_csv('data/mif_req_lbt_data.csv', header=0, index_col = 0)
-# convert index to date time index
-mif_reqs.index = pd.to_datetime(mif_reqs.index)
+# print('Updating MIF Requirements')
+# # read minimum instream flow locations (nodes) and time-series data
+# mif_reqs = pd.read_csv('data/mif_req_lbt_data.csv', header=0, index_col = 0)
+# # convert index to date time index
+# mif_reqs.index = pd.to_datetime(mif_reqs.index)
 
-# this will match and update calvin-network-data rim inflows
-save_ts_data(mif_reqs,os.sep+'LBT.csv')
+# # this will match and update calvin-network-data
+# save_ts_data(mif_reqs,os.sep+'LBT.csv')
+# print('*********************   *********************')
+
+"""
+CONSTRAINED FLOW TIME-SERIES
+
+"""
+print('Updating Constrained Flows')
+# read groundwater inflow locations (nodes) and time-series data
+# (mostly refuge deliveries and fixed urban demands)
+constrained_flow = pd.read_csv('data/constrained_eqt_data.csv', header=0, index_col = 0)
+# convert index to date time index
+constrained_flow.index = pd.to_datetime(constrained_flow.index)
+
+# this will match and update calvin-network-data
+save_ts_data(constrained_flow,os.sep+'EQT.csv')
 print('*********************   *********************')
 
 
