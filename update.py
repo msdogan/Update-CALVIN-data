@@ -80,14 +80,28 @@ RESERVOIR EVAPORATION
 """
 GROUNDWATER INFLOWS
 """
-print('Updating Groundwater Inflow')
+# print('Updating Groundwater Inflow')
+# # read groundwater inflow locations (nodes) and time-series data
+# gw_inflows = pd.read_csv('data/gw_inflow_data.csv', header=0, index_col = 0)
+# # convert index to date time index
+# gw_inflows.index = pd.to_datetime(gw_inflows.index)
+
+# # this will match and update calvin-network-data rim inflows
+# save_ts_data(gw_inflows,os.sep+'inflows'+os.sep+'default.csv')
+# print('*********************   *********************')
+
+
+"""
+MINIMUM INSTREAM FLOW REQUIREMENTS
+"""
+print('Updating MIF Requirements')
 # read groundwater inflow locations (nodes) and time-series data
-gw_inflows = pd.read_csv('data/gw_inflow_data.csv', header=0, index_col = 0)
+mif_reqs = pd.read_csv('data/mif_req_lbt_data.csv', header=0, index_col = 0)
 # convert index to date time index
-gw_inflows.index = pd.to_datetime(gw_inflows.index)
+mif_reqs.index = pd.to_datetime(mif_reqs.index)
 
 # this will match and update calvin-network-data rim inflows
-save_ts_data(gw_inflows,os.sep+'inflows'+os.sep+'default.csv')
+save_ts_data(mif_reqs,os.sep+'LBT.csv')
 print('*********************   *********************')
 
 
