@@ -138,15 +138,15 @@ TARGET AND CAPACITY TIME-SERIES
 LOCAL INFLOWS AND LOSSES
 
 """
-print('Updating Local Inflows')
-# read local inflow and loss locations (nodes) and time-series data
-local_flow = pd.read_csv('data/local_inflow_and_loss_data.csv', header=0, index_col = 0)
-# convert index to date time index
-local_flow.index = pd.to_datetime(local_flow.index)
+# print('Updating Local Inflows')
+# # read local inflow and loss locations (nodes) and time-series data
+# local_flow = pd.read_csv('data/local_inflow_and_loss_data.csv', header=0, index_col = 0)
+# # convert index to date time index
+# local_flow.index = pd.to_datetime(local_flow.index)
 
-# this will match and update calvin-network-data
-save_ts_data(local_flow,os.sep+'EQT.csv')
-print('*********************   *********************')
+# # this will match and update calvin-network-data
+# save_ts_data(local_flow,os.sep+'EQT.csv')
+# print('*********************   *********************')
 
 
 """
@@ -180,3 +180,20 @@ Required files:
 # # walk through CALVIN directory (CALVIN-network-data) to update storage on reservoir nodes
 # save_ts_data(storage_outputs,os.sep + 'storage.csv')
 # print('*********************   *********************')
+
+'''
+*********************   *********************
+THIS MODULE WILL UPDATE PENALTIES
+WORKING NOT FINAL
+*********************   *********************
+'''
+
+penalty = pd.read_csv('data/ag_penalty_EW_MWD.csv')
+
+for i in range(12):
+    dfsave = pd.DataFrame()
+    col1 = penalty.columns[2*i]
+    col2 = penalty.columns[2*i+1]
+    dfsave['capacity'] = penalty[col1].dropna()
+    dfsave['cost'] = penalty[col2].dropna()
+    dfsave.to_csv('data/delete/'+col2+'.csv', index=False)
