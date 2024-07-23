@@ -105,7 +105,6 @@ MINIMUM INSTREAM FLOW REQUIREMENTS
 
 """
 CONSTRAINED FLOW TIME-SERIES
-
 """
 # print('Updating Constrained Flows')
 # # read constrained flow locations (nodes) and time-series data
@@ -123,20 +122,39 @@ CONSTRAINED FLOW TIME-SERIES
 TARGET AND CAPACITY TIME-SERIES
 (excluding ag target deliveries)
 """
-# print('Updating Target Capacities')
+# print('Updating Infrastructure Capacities')
 # # read target capacity locations (nodes) and time-series data
-# target_cap = pd.read_csv('data/target_ubt_data.csv', header=0, index_col = 0)
+# target_cap = pd.read_csv('data/ubt_infrastructure_cap_data.csv', header=0, index_col = 0)
 # # convert index to date time index
 # target_cap.index = pd.to_datetime(target_cap.index)
 
 # # this will match and update calvin-network-data
 # save_ts_data(target_cap,os.sep+'UBT.csv')
-# print('*********************   *********************')
+
+# print('Updating Urban Target Capacities')
+# # read target capacity locations (nodes) and time-series data
+# target_cap = pd.read_csv('data/ubt_urban_target_data.csv', header=0, index_col = 0)
+# # convert index to date time index
+# target_cap.index = pd.to_datetime(target_cap.index)
+
+# # this will match and update calvin-network-data
+# save_ts_data(target_cap,os.sep+'UBT.csv')
+
+# !!!important!!!
+# If you are updating ag penalties, this will affect ag targets. So, use penalty and target updater below
+print('Updating Ag Target Capacities')
+# read target capacity locations (nodes) and time-series data
+target_cap = pd.read_csv('data/ubt_ag_target_data.csv', header=0, index_col = 0)
+# convert index to date time index
+target_cap.index = pd.to_datetime(target_cap.index)
+
+# this will match and update calvin-network-data
+save_ts_data(target_cap,os.sep+'UBT.csv')
+print('*********************   *********************')
 
 
 """
 LOCAL INFLOWS AND LOSSES
-
 """
 # print('Updating Local Inflows')
 # # read local inflow and loss locations (nodes) and time-series data
@@ -187,43 +205,44 @@ THIS MODULE WILL UPDATE AG PENALTIES AND AG TARGET DELIVERIES
 *********************   *********************
 '''
 
-# read ag link information from ag_regions.csv and identify links where penalties are applied
-ag_region_names = pd.read_csv('data/ag_penalty/ag_regions.csv',header=0)
-ag_links = ag_region_names['penalty_link']
+# # read ag link information from ag_regions.csv and identify links where penalties are applied
+# ag_region_names = pd.read_csv('data/ag_penalty/ag_regions.csv',header=0)
+# ag_links = ag_region_names['penalty_link']
 
-start_date='1921-10-31'
-end_date='2003-09-30'
-date_range = pd.date_range(start=start_date,end=end_date,freq='M')
-target_delivery=pd.DataFrame(index=date_range)
+# start_date='1921-10-31'
+# end_date='2003-09-30'
+# date_range = pd.date_range(start=start_date,end=end_date,freq='M')
+# target_delivery=pd.DataFrame(index=date_range)
+# target_delivery.index.name = 'date'
 
-print('Updating ag penalties')
-for r in ag_links:
-    print('region: '+r)
-    penalty = pd.read_csv('data/ag_penalty/'+r+'.csv')
-    monthly_penalty_dict={}
-    for i in range(12):
-        dfsave = pd.DataFrame()
-        col1 = penalty.columns[2*i]
-        col2 = penalty.columns[2*i+1]
-        dfsave['capacity'] = penalty[col1].dropna()
-        dfsave['cost'] = penalty[col2].dropna()
-        penalty_loc = loc_finder(r, directory)+os.sep+'costs'+os.sep
-        dfsave.to_csv(penalty_loc+col2+'.csv', index=False)
-        # construct times-series for ag target deliveries
-        monthly_penalty_dict[i+1]=dfsave['capacity'].iloc[-1]
-    # construct annual time-series from monthly targets
-    targets=[]
-    for j in target_delivery.index:
-        targets.append(monthly_penalty_dict[j.month])
-    target_delivery[r]=targets
-target_delivery.to_csv('data/ag_targets_UBT.csv')
+# print('Updating ag penalties')
+# for r in ag_links:
+#     print('region: '+r)
+#     penalty = pd.read_csv('data/ag_penalty/'+r+'.csv')
+#     monthly_penalty_dict={}
+#     for i in range(12):
+#         dfsave = pd.DataFrame()
+#         col1 = penalty.columns[2*i]
+#         col2 = penalty.columns[2*i+1]
+#         dfsave['capacity'] = penalty[col1].dropna()
+#         dfsave['cost'] = penalty[col2].dropna()
+#         penalty_loc = loc_finder(r, directory)+os.sep+'costs'+os.sep
+#         dfsave.to_csv(penalty_loc+col2+'.csv', index=False)
+#         # construct times-series for ag target deliveries
+#         monthly_penalty_dict[i+1]=dfsave['capacity'].iloc[-1]
+#     # construct annual time-series from monthly targets
+#     targets=[]
+#     for j in target_delivery.index:
+#         targets.append(monthly_penalty_dict[j.month])
+#     target_delivery[r]=targets
+# target_delivery.to_csv('data/ubt_ag_target.csv')
 
-print('Updating ag target deliveries (UBT)')
-# read target capacity locations (nodes) and time-series data
-target_cap_ag = pd.read_csv('data/ag_targets_UBT.csv', header=0, index_col = 0)
-# convert index to date time index
-target_cap_ag.index = pd.to_datetime(target_cap_ag.index)
+# print('Updating ag target deliveries (UBT)')
+# # read target capacity locations (nodes) and time-series data
+# target_cap_ag = pd.read_csv('data/ubt_ag_target.csv', header=0, index_col = 0)
+# # convert index to date time index
+# target_cap_ag.index = pd.to_datetime(target_cap_ag.index)
 
-# this will match and update calvin-network-data
-save_ts_data(target_cap_ag,os.sep+'UBT.csv')
-print('*********************   *********************')
+# # this will match and update calvin-network-data
+# save_ts_data(target_cap_ag,os.sep+'UBT.csv')
+# print('*********************   *********************')
