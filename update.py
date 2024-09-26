@@ -10,6 +10,7 @@ Updating CALVIN database (HOBBES)
 
 import pandas as pd
 import os
+import json
 
 # data directory
 directory = '/Users/msdogan/Documents/github/calvin-network-data/data'
@@ -47,7 +48,6 @@ def save_ts_data(df,path_ending,start_date='1921-09-30',end_date='2003-10-31'):
     return
 
 
-
 """
 RIM INFLOWS
 """
@@ -58,8 +58,8 @@ RIM INFLOWS
 # rim_inflows.index = pd.to_datetime(rim_inflows.index)
 
 # # this will match and update calvin-network-data
-# save_ts_data(rim_inflows,os.sep+'inflows'+os.sep+'default.csv')
-# print('*********************   *********************')
+# save_ts_data(rim_inflows,os.sep+'inflows'+os.sep+'default.csv',start_date='1921-09-30',end_date='2015-10-31')
+# # print('*********************   *********************')
 
 
 """
@@ -72,7 +72,7 @@ RESERVOIR EVAPORATION
 # res_evaps.index = pd.to_datetime(res_evaps.index)
 
 # # this will match and update calvin-network-data
-# save_ts_data(res_evaps,os.sep+'evaporation.csv')
+# save_ts_data(res_evaps,os.sep+'evaporation.csv',start_date='1921-09-30',end_date='2015-10-31')
 # print('*********************   *********************')
 
 
@@ -86,7 +86,7 @@ GROUNDWATER INFLOWS
 # gw_inflows.index = pd.to_datetime(gw_inflows.index)
 
 # # this will match and update calvin-network-data
-# save_ts_data(gw_inflows,os.sep+'inflows'+os.sep+'default.csv')
+# save_ts_data(gw_inflows,os.sep+'inflows'+os.sep+'default.csv',start_date='1921-09-30',end_date='2015-10-31')
 # print('*********************   *********************')
 
 
@@ -100,7 +100,7 @@ MINIMUM INSTREAM FLOW REQUIREMENTS
 # mif_reqs.index = pd.to_datetime(mif_reqs.index)
 
 # # this will match and update calvin-network-data
-# save_ts_data(mif_reqs,os.sep+'LBT.csv')
+# save_ts_data(mif_reqs,os.sep+'LBT.csv',start_date='1921-09-30',end_date='2015-10-31')
 # print('*********************   *********************')
 
 """
@@ -114,7 +114,7 @@ CONSTRAINED FLOW TIME-SERIES
 # constrained_flow.index = pd.to_datetime(constrained_flow.index)
 
 # # this will match and update calvin-network-data
-# save_ts_data(constrained_flow,os.sep+'EQT.csv')
+# save_ts_data(constrained_flow,os.sep+'EQT.csv',start_date='1921-09-30',end_date='2015-10-31')
 # print('*********************   *********************')
 
 
@@ -129,7 +129,7 @@ TARGET AND CAPACITY TIME-SERIES
 # target_cap.index = pd.to_datetime(target_cap.index)
 
 # # this will match and update calvin-network-data
-# save_ts_data(target_cap,os.sep+'UBT.csv')
+# save_ts_data(target_cap,os.sep+'UBT.csv',start_date='1921-09-30',end_date='2015-10-31')
 
 # print('Updating Urban Target Capacities')
 # # read target capacity locations (nodes) and time-series data
@@ -138,19 +138,19 @@ TARGET AND CAPACITY TIME-SERIES
 # target_cap.index = pd.to_datetime(target_cap.index)
 
 # # this will match and update calvin-network-data
-# save_ts_data(target_cap,os.sep+'UBT.csv')
+# save_ts_data(target_cap,os.sep+'UBT.csv',start_date='1921-09-30',end_date='2015-10-31')
 
-# !!!important!!!
-# If you are updating ag penalties, this will affect ag targets. So, use penalty and target updater below
-print('Updating Ag Target Capacities')
-# read target capacity locations (nodes) and time-series data
-target_cap = pd.read_csv('data/ubt_ag_target_data.csv', header=0, index_col = 0)
-# convert index to date time index
-target_cap.index = pd.to_datetime(target_cap.index)
+# # !!!important!!!
+# # If you are updating ag penalties, this will affect ag targets. So, use penalty and target updater below
+# print('Updating Ag Target Capacities')
+# # read target capacity locations (nodes) and time-series data
+# target_cap = pd.read_csv('data/ubt_ag_target_data.csv', header=0, index_col = 0)
+# # convert index to date time index
+# target_cap.index = pd.to_datetime(target_cap.index)
 
-# this will match and update calvin-network-data
-save_ts_data(target_cap,os.sep+'UBT.csv')
-print('*********************   *********************')
+# # this will match and update calvin-network-data
+# save_ts_data(target_cap,os.sep+'UBT.csv',start_date='1921-09-30',end_date='2015-10-31')
+# print('*********************   *********************')
 
 
 """
@@ -163,7 +163,7 @@ LOCAL INFLOWS AND LOSSES
 # local_flow.index = pd.to_datetime(local_flow.index)
 
 # # this will match and update calvin-network-data
-# save_ts_data(local_flow,os.sep+'EQT.csv')
+# save_ts_data(local_flow,os.sep+'EQT.csv',start_date='1921-09-30',end_date='2015-10-31')
 # print('*********************   *********************')
 
 
@@ -180,23 +180,23 @@ Required files:
 
 # print('Updating Link Flow')
 # # read link names and time-series data
-# flow_outputs = pd.read_csv('CALVIN_output/flow.csv', header=0, index_col = 0)
+# flow_outputs = pd.read_csv('CALVIN_output/flow_extended_with_zeros.csv', header=0, index_col = 0)
 # # convert index to date time index
 # flow_outputs.index = pd.to_datetime(flow_outputs.index)
 
 # # walk through CALVIN directory (CALVIN-network-data) to update storage on reservoir nodes
-# save_ts_data(flow_outputs,os.sep + 'flow.csv')
+# save_ts_data(flow_outputs,os.sep + 'flow.csv',start_date='1921-09-30',end_date='2015-10-31')
 # print('*********************   *********************')
 
 
 # print('Updating Reservoir Storage')
 # # read node names and time-series data
-# storage_outputs = pd.read_csv('CALVIN_output/storage.csv', header=0, index_col = 0)
+# storage_outputs = pd.read_csv('CALVIN_output/storage_extended_with_zeros.csv', header=0, index_col = 0)
 # # convert index to date time index
 # storage_outputs.index = pd.to_datetime(storage_outputs.index)
 
 # # walk through CALVIN directory (CALVIN-network-data) to update storage on reservoir nodes
-# save_ts_data(storage_outputs,os.sep + 'storage.csv')
+# save_ts_data(storage_outputs,os.sep + 'storage.csv',start_date='1921-09-30',end_date='2015-10-31')
 # print('*********************   *********************')
 
 '''
@@ -244,5 +244,27 @@ THIS MODULE WILL UPDATE AG PENALTIES AND AG TARGET DELIVERIES
 # target_cap_ag.index = pd.to_datetime(target_cap_ag.index)
 
 # # this will match and update calvin-network-data
-# save_ts_data(target_cap_ag,os.sep+'UBT.csv')
+# save_ts_data(target_cap_ag,os.sep+'UBT.csv',start_date='1921-09-30',end_date='2015-10-31')
 # print('*********************   *********************')
+
+'''
+*********************   *********************
+NOT WORKING YET - THIS MODULE WILL MODIFY NODE.GEOJSON files - NOT WORKING YET
+*********************   *********************
+'''
+# for subdirs, dirs, files in os.walk(directory):
+#     for file in files:
+#         if file == "node.geojson":
+#             filepath = subdirs+os.sep+"node.geojson"
+#             # with open(filepath, 'r') as filex:
+#             #     # read lines from the file
+#             #     lines = filex.readlines()
+#             # if lines[-1] != '"'+'flow'+'"'+':'+'null'+'}'+'}':
+#             #     print(filepath)
+#             # Opening JSON file
+#             with open(filepath, 'r') as openfile:
+#                 # Reading from json file
+#                 json_object = json.load(openfile)
+#             json_object["properties"]["flow"]=None
+#             with open(filepath, "w") as outfile:
+#                 json.dump(json_object, outfile)
