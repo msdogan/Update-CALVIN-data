@@ -51,15 +51,15 @@ def save_ts_data(df,path_ending,start_date='1921-09-30',end_date='2003-10-31'):
 """
 RIM INFLOWS
 """
-# print('Updating Reservoir Inflow')
-# # read rim inflow locations (nodes) and time-series data
-# rim_inflows = pd.read_csv('data/rim_inflow_data.csv', header=0, index_col = 0)
-# # convert index to date time index
-# rim_inflows.index = pd.to_datetime(rim_inflows.index)
+print('Updating Reservoir Inflow')
+# read rim inflow locations (nodes) and time-series data
+rim_inflows = pd.read_csv('data/rim_inflow_data.csv', header=0, index_col = 0)
+# convert index to date time index
+rim_inflows.index = pd.to_datetime(rim_inflows.index)
 
-# # this will match and update calvin-network-data
-# save_ts_data(rim_inflows,os.sep+'inflows'+os.sep+'default.csv',start_date='1921-09-30',end_date='2015-10-31')
-# # print('*********************   *********************')
+# this will match and update calvin-network-data
+save_ts_data(rim_inflows,os.sep+'inflows'+os.sep+'default.csv',start_date='1921-09-30',end_date='2015-10-31')
+# print('*********************   *********************')
 
 
 """
