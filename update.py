@@ -313,8 +313,13 @@ for hu in unique_hu:
             delivery = df_month["xwatersc_monthly_TAF"]
             penalty = df_month["penalty"]
             
+            if sum(delivery) == 0: # these are months/regions with zero target capacity
+                delivery = [0,1000000] # if you don't update this, problems can arise when calcualting slopes (unit cost c)
+                penalty = [0,0]
+            
             df_save["capacity"] = delivery
             df_save["cost"] = penalty
+            
             # save and update penalties
             df_save.to_csv(penalty_loc+os.sep+months[month]+'.csv', index=False)
             
@@ -323,18 +328,19 @@ for hu in unique_hu:
         for j in target_delivery.index:
             targets.append(monthly_target[j.strftime("%B")])
         target_delivery[link]=targets
-# save target capacities    
-target_delivery.to_csv('data/ubt_ag_target_new.csv')
 
-print('Updating ag target deliveries (UBT)')
-# read target capacity locations (nodes) and time-series data
-target_cap_ag = pd.read_csv('data/ubt_ag_target_new.csv', header=0, index_col = 0)
-# convert index to date time index
-target_cap_ag.index = pd.to_datetime(target_cap_ag.index)
+# # save target capacities    
+# target_delivery.to_csv('data/ubt_ag_target_new.csv')
 
-# this will match and update calvin-network-data
-save_ts_data(target_cap_ag,os.sep+'UBT.csv',start_date='1921-09-30',end_date='2015-10-31')
-print('*********************   *********************')
+# print('Updating ag target deliveries (UBT)')
+# # read target capacity locations (nodes) and time-series data
+# target_cap_ag = pd.read_csv('data/ubt_ag_target_new.csv', header=0, index_col = 0)
+# # convert index to date time index
+# target_cap_ag.index = pd.to_datetime(target_cap_ag.index)
+
+# # this will match and update calvin-network-data
+# save_ts_data(target_cap_ag,os.sep+'UBT.csv',start_date='1921-09-30',end_date='2015-10-31')
+# print('*********************   *********************')
 
 
 '''
