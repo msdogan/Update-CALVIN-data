@@ -13,7 +13,14 @@ import os
 import json
 
 # data directory
-directory = '/Users/msdogan/Documents/github/calvin-network-data/data'
+directory = '/Users/Workstation/Documents/github/calvin-network-data/data'
+
+print("**************** exporting network matrix ****************")
+ 
+# following command line command will export network matrix
+os.system(f'cnf matrix --data={directory}  --verbose --format=csv --start=1921-10 --stop=2015-10 --ts=. --fs=, --to=network_historical_with_overdraft --max-ub=10000000000')
+ 
+print("network successfully exported")
 
 # this function finds data path for desired nodes or links
 def loc_finder(loc, directory):
@@ -291,7 +298,7 @@ THIS MODULE WILL UPDATE AG PENALTIES AND AG TARGET DELIVERIES
 
 # # read penalties - raw data
 # # Read data
-# df = pd.read_csv("data/ag_penalty/penalties_lambdawaters_monthly.csv")
+# df = pd.read_csv("data/ag_penalty/lambdawaters_monthly_step05_march_2026.csv")
 
 # unique_hu = df["hu"].unique()
 # unique_month = df["month_name"].unique()
@@ -314,7 +321,7 @@ THIS MODULE WILL UPDATE AG PENALTIES AND AG TARGET DELIVERIES
 #             penalty = df_month["penalty"]
             
 #             if sum(delivery) == 0: # these are months/regions with zero target capacity
-#                 delivery = [0,1000000] # if you don't update this, problems can arise when calcualting slopes (unit cost c)
+#                 delivery = [0.000001,0] # if you don't update this, problems can arise when calcualting slopes (unit cost c)
 #                 penalty = [0,0]
             
 #             df_save["capacity"] = delivery
@@ -330,11 +337,11 @@ THIS MODULE WILL UPDATE AG PENALTIES AND AG TARGET DELIVERIES
 #         target_delivery[link]=targets
 
 # # save target capacities    
-# target_delivery.to_csv('data/ubt_ag_target_new.csv')
+# target_delivery.to_csv('data/ubt_ag_target.csv')
 
 # print('Updating ag target deliveries (UBT)')
 # # read target capacity locations (nodes) and time-series data
-# target_cap_ag = pd.read_csv('data/ubt_ag_target_new.csv', header=0, index_col = 0)
+# target_cap_ag = pd.read_csv('data/ubt_ag_target.csv', header=0, index_col = 0)
 # # convert index to date time index
 # target_cap_ag.index = pd.to_datetime(target_cap_ag.index)
 
@@ -342,79 +349,91 @@ THIS MODULE WILL UPDATE AG PENALTIES AND AG TARGET DELIVERIES
 # save_ts_data(target_cap_ag,os.sep+'UBT.csv',start_date='1921-09-30',end_date='2015-10-31')
 # print('*********************   *********************')
 
-# climate scenario
-scenarios = [
-            'ACCESS-CM2', # ssp370 does not exist
-            # 'EC-Earth3-Veg',
-            # 'FGOALS-g3',
-            # 'GFDL-ESM4',
-            # 'INM-CM5-0',
-            # 'IPSL-CM6A-LR',
-            # 'KACE-1-0-G',
-            # 'MIROC6',
-            # 'MPI-ESM1-2-HR',
-            # 'MRI-ESM2-0',
-            # 'TaiESM1' # ssp585 does not exist
-            ]
-# ssp scenario
-ssps = [
-        # 'ssp245',
-        # 'ssp370',
-        'ssp585'
-        ]
 
-# following scenarios do not exist in the database
-skip_pairs = {
-    ('ACCESS-CM2', 'ssp370'),
-    ('TaiESM1', 'ssp585')
-}
+"""
+   PERTURBED HYDROLOGY FOR CLIMATE CHANGE
+"""
 
-# organize projected runoff
-for scenario in scenarios:
-    for ssp in ssps:
-        if (scenario, ssp) in skip_pairs:
-            continue
-        print(f'scenario: {scenario}, ssp: {ssp}')
-        """
-        RIM INFLOWS
-        """
-        print('Updating Reservoir Inflow')
-        # read rim inflow locations (nodes) and time-series data
-        rim_inflows = pd.read_csv(f'data/perturbed_hydrology/rim_inflow/{scenario}_{ssp}_rim_inflow_perturbed.csv', header=0, index_col = 0)
-        # convert index to date time index
-        rim_inflows.index = pd.to_datetime(rim_inflows.index)
+# # climate scenario
+# scenarios = [
+#             'ACCESS-CM2', # ssp370 does not exist
+#             'EC-Earth3-Veg',
+#             'FGOALS-g3',
+#             'GFDL-ESM4',
+#             'INM-CM5-0',
+#             'IPSL-CM6A-LR',
+#             'KACE-1-0-G',
+#             'MIROC6',
+#             'MPI-ESM1-2-HR',
+#             'MRI-ESM2-0',
+#             'TaiESM1' # ssp585 does not exist
+#             ]
+# # ssp scenario
+# ssps = [
+#         'ssp245',
+#         'ssp370',
+#         'ssp585'
+#         ]
+
+# # following scenarios do not exist in the database
+# skip_pairs = {
+#     ('ACCESS-CM2', 'ssp370'),
+#     ('TaiESM1', 'ssp585')
+# }
+
+# # organize projected runoff
+# for scenario in scenarios:
+#     for ssp in ssps:
+#         if (scenario, ssp) in skip_pairs:
+#             continue
+#         print(f'scenario: {scenario}, ssp: {ssp}')
+#         """
+#         RIM INFLOWS
+#         """
+#         print('Perturbing Reservoir Inflow')
+#         # read rim inflow locations (nodes) and time-series data
+#         rim_inflows = pd.read_csv(f'data/perturbed_hydrology/rim_inflow/{scenario}_{ssp}_rim_inflow_perturbed.csv', header=0, index_col = 0)
+#         # convert index to date time index
+#         rim_inflows.index = pd.to_datetime(rim_inflows.index)
         
-        # this will match and update calvin-network-data
-        save_ts_data(rim_inflows,os.sep+'inflows'+os.sep+'default.csv',start_date='1921-09-30',end_date='2015-10-31')
-        # print('*********************   *********************')
+#         # this will match and update calvin-network-data
+#         save_ts_data(rim_inflows,os.sep+'inflows'+os.sep+'default.csv',start_date='1921-09-30',end_date='2015-10-31')
+#         # print('*********************   *********************')
         
         
-        """
-        GROUNDWATER INFLOWS
-        """
-        print('Updating Groundwater Inflow')
-        # read groundwater inflow locations (nodes) and time-series data
-        gw_inflows = pd.read_csv(f'data/perturbed_hydrology/gw_inflow/{scenario}_{ssp}_gw_inflow_perturbed.csv', header=0, index_col = 0)
-        # convert index to date time index
-        gw_inflows.index = pd.to_datetime(gw_inflows.index)
+#         """
+#         GROUNDWATER INFLOWS
+#         """
+#         print('Perturbing Groundwater Inflow')
+#         # read groundwater inflow locations (nodes) and time-series data
+#         gw_inflows = pd.read_csv(f'data/perturbed_hydrology/gw_inflow/{scenario}_{ssp}_gw_inflow_perturbed.csv', header=0, index_col = 0)
+#         # convert index to date time index
+#         gw_inflows.index = pd.to_datetime(gw_inflows.index)
         
-        # this will match and update calvin-network-data
-        save_ts_data(gw_inflows,os.sep+'inflows'+os.sep+'default.csv',start_date='1921-09-30',end_date='2015-10-31')
-        print('*********************   *********************')
+#         # this will match and update calvin-network-data
+#         save_ts_data(gw_inflows,os.sep+'inflows'+os.sep+'default.csv',start_date='1921-09-30',end_date='2015-10-31')
+#         print('*********************   *********************')
         
         
-        """
-        LOCAL INFLOWS AND LOSSES
-        """
-        print('Updating Local Inflows')
-        # read local inflow and loss locations (nodes) and time-series data
-        local_flow = pd.read_csv(f'data/perturbed_hydrology/local_inflow/{scenario}_{ssp}_local_inflow_perturbed.csv', header=0, index_col = 0)
-        # convert index to date time index
-        local_flow.index = pd.to_datetime(local_flow.index)
+#         """
+#         LOCAL INFLOWS AND LOSSES
+#         """
+#         print('Perturbing Local Inflows')
+#         # read local inflow and loss locations (nodes) and time-series data
+#         local_flow = pd.read_csv(f'data/perturbed_hydrology/local_inflow/{scenario}_{ssp}_local_inflow_perturbed.csv', header=0, index_col = 0)
+#         # convert index to date time index
+#         local_flow.index = pd.to_datetime(local_flow.index)
         
-        # this will match and update calvin-network-data
-        save_ts_data(local_flow,os.sep+'EQT.csv',start_date='1921-09-30',end_date='2015-10-31')
-        print('*********************   *********************')
+#         # this will match and update calvin-network-data
+#         save_ts_data(local_flow,os.sep+'EQT.csv',start_date='1921-09-30',end_date='2015-10-31')
+#         print('*********************   *********************')
+        
+#         print("**************** exporting network matrix ****************")
+        
+#         # following command line command will export network matrix
+#         os.system(f'cnf matrix --data={directory}  --verbose --format=csv --start=1921-10 --stop=2015-10 --ts=. --fs=, --to=network_{scenario}_{ssp}_no_overdraft_debug --max-ub=10000000000 --debug=All')
+        
+#         print("network successfully exported")
 
 
 
