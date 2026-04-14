@@ -15,12 +15,12 @@ import json
 # data directory
 directory = '/Users/Workstation/Documents/github/calvin-network-data/data'
 
-print("**************** exporting network matrix ****************")
+# print("**************** exporting network matrix ****************")
  
-# following command line command will export network matrix
-os.system(f'cnf matrix --data={directory}  --verbose --format=csv --start=1921-10 --stop=2015-10 --ts=. --fs=, --to=network_historical_with_overdraft --max-ub=10000000000')
+# # following command line command will export network matrix
+# os.system(f'cnf matrix --data={directory}  --verbose --format=csv --start=1921-10 --stop=2015-10 --ts=. --fs=, --to=network_historical_with_overdraft --max-ub=10000000000')
  
-print("network successfully exported")
+# print("network successfully exported")
 
 # this function finds data path for desired nodes or links
 def loc_finder(loc, directory):
@@ -254,100 +254,100 @@ THIS MODULE WILL UPDATE AG PENALTIES AND AG TARGET DELIVERIES
 # save_ts_data(target_cap_ag,os.sep+'UBT.csv',start_date='1921-09-30',end_date='2015-10-31')
 # print('*********************   *********************')
 
-# # method 2:
-# # demand areas to be updated
-# demand_area = {
-#     "hu101":"cvpm01",
-#     "hu102":"cvpm02",
-#     "hu103a":"cvpm03a",
-#     "hu103b":"cvpm03b",
-#     "hu104":"cvpm04",
-#     "hu202":"cvpm05",
-#     "hu203":"cvpm06",
-#     "hu204":"cvpm07",
-#     "hu207":"cvpm08",
-#     "hu206":"cvpm09",
-#     "hu303":"cvpm10",
-#     "hu302":"cvpm11",
-#     "hu305":"cvpm12",
-#     "hu306":"cvpm13",
-#     "hu402a":"cvpm14a",
-#     "hu402b":"cvpm14b",
-#     "hu404a":"cvpm15a",
-#     "hu404b":"cvpm15b",
-#     "hu401":"cvpm16",
-#     "hu403":"cvpm17",
-#     "hu405":"cvpm18",
-#     "hu408a":"cvpm19a",
-#     "hu408b":"cvpm19b",
-#     "hu407":"cvpm20",
-#     "hu409a":"cvpm21a",
-#     "hu409b":"cvpm21b",
-#     "hu409c":"cvpm21c"
-#     }
+# method 2:
+# demand areas to be updated
+demand_area = {
+    "hu101":"cvpm01",
+    "hu102":"cvpm02",
+    "hu103a":"cvpm03a",
+    "hu103b":"cvpm03b",
+    "hu104":"cvpm04",
+    "hu202":"cvpm05",
+    "hu203":"cvpm06",
+    "hu204":"cvpm07",
+    "hu207":"cvpm08",
+    "hu206":"cvpm09",
+    "hu303":"cvpm10",
+    "hu302":"cvpm11",
+    "hu305":"cvpm12",
+    "hu306":"cvpm13",
+    "hu402a":"cvpm14a",
+    "hu402b":"cvpm14b",
+    "hu404a":"cvpm15a",
+    "hu404b":"cvpm15b",
+    "hu401":"cvpm16",
+    "hu403":"cvpm17",
+    "hu405":"cvpm18",
+    "hu408a":"cvpm19a",
+    "hu408b":"cvpm19b",
+    "hu407":"cvpm20",
+    "hu409a":"cvpm21a",
+    "hu409b":"cvpm21b",
+    "hu409c":"cvpm21c"
+    }
 
-# return_type = {"GW":"g","SW":"s"}
+return_type = {"GW":"g","SW":"s"}
 
-# months = {'January':"JAN",'February':"FEB",'March':"MAR",'April':"APR",'May':"MAY",'June':"JUN",'July':"JUL",'August':"AUG",'September':"SEP",'October':"OCT",'November':"NOV",'December':"DEC"}
+months = {'January':"JAN",'February':"FEB",'March':"MAR",'April':"APR",'May':"MAY",'June':"JUN",'July':"JUL",'August':"AUG",'September':"SEP",'October':"OCT",'November':"NOV",'December':"DEC"}
 
-# start_date='1921-10-31'
-# end_date='2015-09-30'
-# date_range = pd.date_range(start=start_date,end=end_date,freq='M')
-# target_delivery=pd.DataFrame(index=date_range)
-# target_delivery.index.name = 'date'
+start_date='1921-10-31'
+end_date='2015-09-30'
+date_range = pd.date_range(start=start_date,end=end_date,freq='M')
+target_delivery=pd.DataFrame(index=date_range)
+target_delivery.index.name = 'date'
 
-# # read penalties - raw data
-# # Read data
-# df = pd.read_csv("data/ag_penalty/lambdawaters_monthly_step05_march_2026.csv")
+# read penalties - raw data
+# Read data
+df = pd.read_csv("data/ag_penalty/lambdawaters_monthly_CV_apr142026.csv")
 
-# unique_hu = df["hu"].unique()
-# unique_month = df["month_name"].unique()
-# unique_water_type = df["water_type"].unique()
+unique_hu = df["hu"].unique()
+unique_month = df["month_name"].unique()
+unique_water_type = df["water_type"].unique()
 
-# for hu in unique_hu:
-#     df_region = df[df["hu"] == hu]
-#     for wt in unique_water_type:
-#         subregion = demand_area[hu]
-#         link = hu + '-' + subregion + return_type[wt]
-#         penalty_loc = loc_finder(link, directory)+os.sep+'costs'+os.sep
-#         print(penalty_loc)
-#         df_wt = df_region[df_region["water_type"] == wt]
-#         monthly_target = {}
-#         for month in unique_month:
-#             df_save = pd.DataFrame()
-#             print(f'{hu}, {wt}, {month}')
-#             df_month = df_wt[df_wt["month_name"] == month]
-#             delivery = df_month["xwatersc_monthly_TAF"]
-#             penalty = df_month["penalty"]
+for hu in unique_hu:
+    df_region = df[df["hu"] == hu]
+    for wt in unique_water_type:
+        subregion = demand_area[hu]
+        link = hu + '-' + subregion + return_type[wt]
+        penalty_loc = loc_finder(link, directory)+os.sep+'costs'+os.sep
+        print(penalty_loc)
+        df_wt = df_region[df_region["water_type"] == wt]
+        monthly_target = {}
+        for month in unique_month:
+            df_save = pd.DataFrame()
+            print(f'{hu}, {wt}, {month}')
+            df_month = df_wt[df_wt["month_name"] == month]
+            delivery = df_month["xwatersc_monthly_TAF"]
+            penalty = df_month["penalty"]
             
-#             if sum(delivery) == 0: # these are months/regions with zero target capacity
-#                 delivery = [0.000001,0] # if you don't update this, problems can arise when calcualting slopes (unit cost c)
-#                 penalty = [0,0]
+            if sum(delivery) == 0: # these are months/regions with zero target capacity
+                delivery = [0.000001,0] # if you don't update this, problems can arise when calcualting slopes (unit cost c)
+                penalty = [0,0]
             
-#             df_save["capacity"] = delivery
-#             df_save["cost"] = penalty
+            df_save["capacity"] = delivery
+            df_save["cost"] = penalty
             
-#             # save and update penalties
-#             df_save.to_csv(penalty_loc+os.sep+months[month]+'.csv', index=False)
+            # save and update penalties
+            df_save.to_csv(penalty_loc+os.sep+months[month]+'.csv', index=False)
             
-#             monthly_target[month]=df_save['capacity'].iloc[-1]
-#         targets=[]
-#         for j in target_delivery.index:
-#             targets.append(monthly_target[j.strftime("%B")])
-#         target_delivery[link]=targets
+            monthly_target[month]=df_save['capacity'].iloc[-1]
+        targets=[]
+        for j in target_delivery.index:
+            targets.append(monthly_target[j.strftime("%B")])
+        target_delivery[link]=targets
 
-# # save target capacities    
-# target_delivery.to_csv('data/ubt_ag_target.csv')
+# save target capacities    
+target_delivery.to_csv('data/ubt_ag_target_CV_apr142026.csv')
 
-# print('Updating ag target deliveries (UBT)')
-# # read target capacity locations (nodes) and time-series data
-# target_cap_ag = pd.read_csv('data/ubt_ag_target.csv', header=0, index_col = 0)
-# # convert index to date time index
-# target_cap_ag.index = pd.to_datetime(target_cap_ag.index)
+print('Updating ag target deliveries (UBT)')
+# read target capacity locations (nodes) and time-series data
+target_cap_ag = pd.read_csv('data/ubt_ag_target_CV_apr142026.csv', header=0, index_col = 0)
+# convert index to date time index
+target_cap_ag.index = pd.to_datetime(target_cap_ag.index)
 
-# # this will match and update calvin-network-data
-# save_ts_data(target_cap_ag,os.sep+'UBT.csv',start_date='1921-09-30',end_date='2015-10-31')
-# print('*********************   *********************')
+# this will match and update calvin-network-data
+save_ts_data(target_cap_ag,os.sep+'UBT.csv',start_date='1921-09-30',end_date='2015-10-31')
+print('*********************   *********************')
 
 
 """
